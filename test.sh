@@ -11,6 +11,7 @@ export MAMBA_ROOT_PREFIX=$root_prefix
 
 
 echo "SSL Verify true"
+micromamba info
 
 micromamba create -y -p $tmp_prefix
 micromamba install --ssl-verify true -y --dry-run -p $tmp_prefix xtensor -c conda-forge
@@ -21,6 +22,7 @@ root_prefix=$(mktemp -d)/root
 export MAMBA_ROOT_PREFIX=$root_prefix
 
 echo "SSL Verify false"
+micromamba info
 
 micromamba create -y -p $tmp_prefix
 micromamba install --ssl-verify false -y --dry-run -p $tmp_prefix xtensor -c conda-forge
