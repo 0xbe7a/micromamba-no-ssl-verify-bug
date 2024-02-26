@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+eval "$(micromamba shell hook --shell bash)"
+
+set -eux
+
+# This works
+tmp_prefix=$(mktemp -d)/env
+root_prefix=$(mktemp -d)/root
+export MAMBA_ROOT_PREFIX=$root_prefix
+
+
+echo "SSL Verify true"
+
+micromamba create -y -p $tmp_prefix
+micromamba install --ssl-verify true -y --dry-run -p $tmp_prefix xtensor -c conda-forge
+
+# This fails
+tmp_prefix=$(mktemp -d)/env
+root_prefix=$(mktemp -d)/root
+export MAMBA_ROOT_PREFIX=$root_prefix
+
+echo "SSL Verify false"
+
+micromamba create -y -p $tmp_prefix
+micromamba install --ssl-verify false -y --dry-run -p $tmp_prefix xtensor -c conda-forge
